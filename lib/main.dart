@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import './pages/postList.dart';
 import './pages/LikeList.dart';
 import './pages/PostDetailPage.dart';
+import './widgets/SideDrawer.dart';
 
 void main() => runApp(new MyApp());
 
@@ -118,11 +119,7 @@ class ClientState extends State<MyApp> {
             });
           },
         ),
-        drawer: new Drawer(
-          child: new Center(
-            child: new Text('this is a drawer')
-          )
-        ),
+        drawer: new SideDrawer(),
       )
     );
   }  
