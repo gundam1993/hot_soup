@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import './pages/postList.dart';
 import './pages/LikeList.dart';
+import './pages/PostDetailPage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -19,6 +20,8 @@ class ClientState extends State<MyApp> {
   // 页面顶部的大标题
   var appBarTitles = ['Timeline', 'Collection'];
   var _body;
+  // 全局路由
+  var _routes;
   // 数据初始化
   void initData() {
     if (tabImages == null) {
@@ -26,6 +29,19 @@ class ClientState extends State<MyApp> {
         [Icon(Icons.home, color: Colors.grey[600]), Icon(Icons.home, color: Colors.red)],
         [Icon(Icons.star_border, color: Colors.grey[600]), Icon(Icons.star, color: Colors.red)]
       ];
+    }
+    if (_routes == null) {
+      _routes = {
+        'PostDetail': (BuildContext) {
+          return new PostDetailPage();
+        },
+        'PostList': (BuildContext) {
+          return new PostListPage();
+        },
+        'LikeList': (BuildContext) {
+          return new LikeListPage();
+        },
+      };
     }
     _body = new IndexedStack(
       children: <Widget>[
@@ -86,6 +102,7 @@ class ClientState extends State<MyApp> {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.red,
       ),
+      routes: _routes,
       home: new Scaffold(
         appBar: new AppBar(
           title: new Text('Hot Soup',style: new TextStyle(color: Colors.white))
@@ -100,7 +117,12 @@ class ClientState extends State<MyApp> {
               _tabIndex = index;
             });
           },
-        )
+        ),
+        drawer: new Drawer(
+          child: new Center(
+            child: new Text('this is a drawer')
+          )
+        ),
       )
     );
   }  
