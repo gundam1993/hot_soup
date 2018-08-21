@@ -5,26 +5,74 @@ import './pages/LikeList.dart';
 
 void main() => runApp(new MyApp());
 
-int _tabIndex = 0;
-
-var _body = new IndexedStack(
-  children: <Widget>[
-    new PostListPage(),
-    new LikeListPage()
-  ],
-  index: _tabIndex,
-);
-
-
-
 class MyApp extends StatefulWidget {
   @override
   ClientState createState() => new ClientState();
 }
 
 class ClientState extends State<MyApp> {
+  int _tabIndex = 0;
+  final tabTextStyleNormal = new TextStyle(color: Colors.grey[600]);
+  final tabTextStyleSelected = new TextStyle(color: Colors.red);
+  // 页面底部 TabItem 上的图标数组
+  var tabImages;
+  // 页面顶部的大标题
+  var appBarTitles = ['Timeline', 'Collection'];
+  var _body;
+  // 数据初始化
+  void initData() {
+    if (tabImages == null) {
+      tabImages = [
+        [Icon(Icons.home, color: Colors.grey[600]), Icon(Icons.home, color: Colors.red)],
+        [Icon(Icons.star_border, color: Colors.grey[600]), Icon(Icons.star, color: Colors.red)]
+      ];
+    }
+    _body = new IndexedStack(
+      children: <Widget>[
+        new PostListPage(),
+        new LikeListPage()
+      ],
+      index: _tabIndex,
+    );
+  }
+
+  // 根据索引值确定 Tab 是选中状态的样式还是非选中状态的样式
+  TextStyle getTabTextStyle(int curIndex) {
+    if (curIndex == _tabIndex) {
+      return tabTextStyleSelected;
+    }
+    return tabTextStyleNormal;
+  }
+
+  // 根据索引值确定 TabItem 的 icon 是选中还是非选中
+  Icon getTabIcon(int curIndex) {
+    if (curIndex == _tabIndex) {
+      return tabImages[curIndex][1];
+    }
+    return tabImages[curIndex][0];
+  }
+
+  Text getTabTitle(int curIndex) {
+    return new Text(
+      appBarTitles[curIndex],
+      style: getTabTextStyle(curIndex),
+    );
+  }
+
+  List<BottomNavigationBarItem> getBottomNavItems() {
+    List<BottomNavigationBarItem> list = new List();
+    for (int i = 0; i < 2; i++) {
+      list.add(new BottomNavigationBarItem(
+        icon: getTabIcon(i),
+        title: getTabTitle(i)
+      ));
+    }
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
+    initData();
     return new MaterialApp(
       title: 'Hot Soup',
       theme: new ThemeData(
@@ -42,11 +90,18 @@ class ClientState extends State<MyApp> {
         appBar: new AppBar(
           title: new Text('Hot Soup',style: new TextStyle(color: Colors.white))
         ),
-        body: new Text('Hot Soup'),
-        // bottomNavigationBar: new CupertinoTabBar(
-        //   items:
-        // ),
+        body: _body,
+        bottomNavigationBar: new CupertinoTabBar(
+          items: getBottomNavItems(),
+          currentIndex: _tabIndex,
+          onTap: (index) {
+            // 底部 TabItem 的点击事件处理，改变选中的 tab 的索引值
+            setState(() {
+              _tabIndex = index;
+            });
+          },
+        )
       )
     );
-  }
+  }  
 }
