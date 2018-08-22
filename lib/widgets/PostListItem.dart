@@ -3,6 +3,18 @@ import 'package:flutter/material.dart';
 class PostListItem extends StatelessWidget {
   Map<String, dynamic> listInfo;
   PostListItem(this.listInfo);
+
+  String testAvatarUrl(String origin) {
+    RegExp exp = new RegExp("^http");
+    Iterable<Match> matches = exp.allMatches(origin);
+    for (Match m in matches) {
+      if (m.group(0) == 'http') {
+        return origin;
+      }
+    }
+    String url = 'http:' + origin;
+    return url;
+  }
   @override
   Widget build(BuildContext context) {
     var titleRow = new Row(children: <Widget>[
@@ -16,7 +28,7 @@ class PostListItem extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.grey,
           image: new DecorationImage(
-            image: new NetworkImage(listInfo["author"]["avatar_url"]), fit: BoxFit.cover
+            image: new NetworkImage(testAvatarUrl(listInfo["author"]["avatar_url"])), fit: BoxFit.cover
           ),
           border: new Border.all(
             color: const Color(0xFFECECEC),
