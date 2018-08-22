@@ -20,6 +20,13 @@ class PostDetailPage extends StatefulWidget {
 
 class PostDetailPageState extends State<PostDetailPage> {
   String postId;
+  Map<String, String> tagMap = {
+    'all': '全部',
+    'good': '精华',
+    'share': '分享',
+    'ask': '问答',
+    'job': '招聘',
+  };
   var postData;
 
   PostDetailPageState(this.postId);
@@ -92,7 +99,7 @@ class PostDetailPageState extends State<PostDetailPage> {
                         ),
                       ),
                       new Text(
-                        " / " + postData["tab"],
+                        " / " + tagMap[postData["tab"]],
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.red

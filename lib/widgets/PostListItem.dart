@@ -11,6 +11,13 @@ class PostListItem extends StatelessWidget {
   String loginName;
   int replyCount;
   String postId;
+  Map<String, String> tagMap = {
+    'all': '全部',
+    'good': '精华',
+    'share': '分享',
+    'ask': '问答',
+    'job': '招聘',
+  };
   PostListItem(this.postId, this.title, this.avatarUrl, this.loginName, this.createdAt, this.tab, this.replyCount);
 
   @override
@@ -54,7 +61,7 @@ class PostListItem extends StatelessWidget {
                         ),
                       ),
                       new Text(
-                        " / " + tab,
+                        " / " + tagMap[tab],
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.red
