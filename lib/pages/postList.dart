@@ -5,18 +5,37 @@ import '../util/net.dart';
 import '../widgets/PostListItem.dart';
 
 class PostListPage extends StatefulWidget {
+  String tab;
+
+  PostListPage(this.tab);
+
   @override
   State<StatefulWidget> createState() {
-    return new PostListPageState();
+    return new PostListPageState(tab);
   }
 }
 
 class PostListPageState extends State<PostListPage> {
+  String tab;
   var listData;
   var currentPage = 1;
   var pageLimit = 10;
   var listTotalSize = 0;
   ScrollController _controller = new ScrollController();
+
+
+  PostListPageState(this.tab) {
+    _controller.addListener(() {
+      var maxScroll = _controller.position.maxScrollExtent;
+      var pixels = _controller.position.pixels;
+      if (maxScroll == pixels) {
+        // scroll to bottom, get next page data
+        print('load more ...');
+        currentPage++;
+        getPostList(true);
+      }
+    });
+  }
 
   Widget renderRow(i) {
     return new PostListItem(listData[i]);
@@ -25,6 +44,7 @@ class PostListPageState extends State<PostListPage> {
   getPostList(bool isLoadMore) {
     String url = Api.TOPICS;
     Net.get(url, {
+      'tab': tab,
       'page': currentPage.toString(),
       'limit': pageLimit.toString(),
     }).then((data) {
