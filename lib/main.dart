@@ -14,22 +14,9 @@ class MyApp extends StatefulWidget {
 class ClientState extends State<MyApp> {
   // 页面顶部的大标题
   // var appBarTitles = ['Timeline', 'Collection'];
-  // 全局路由
-  var _routes;
-  // 数据初始化
-  void initData() {
-    if (_routes == null) {
-      _routes = {
-        'PostDetail': (BuildContext) {
-          return new PostDetailPage();
-        },
-      };
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    initData();
     return new MaterialApp(
       title: 'Hot Soup',
       theme: new ThemeData(
@@ -43,7 +30,6 @@ class ClientState extends State<MyApp> {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.red,
       ),
-      routes: _routes,
       home: new DefaultTabController(
         length: 5,
         child: new Scaffold(
