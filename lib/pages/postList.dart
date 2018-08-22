@@ -38,7 +38,14 @@ class PostListPageState extends State<PostListPage> {
   }
 
   Widget renderRow(i) {
-    return new PostListItem(listData[i]);
+    return new PostListItem(
+      listData[i]['id'],
+      listData[i]["title"], 
+      listData[i]['author']['avatar_url'], 
+      listData[i]['author']['loginname'], 
+      listData[i]['create_at'], 
+      listData[i]['tab'], 
+      listData[i]['reply_count']);
   }
 
   getPostList(bool isLoadMore) {
